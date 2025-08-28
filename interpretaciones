@@ -1,0 +1,38 @@
+media y el promedio son valores de equilibrio de un conjunto de datos, se calcula sumando valores y dividiendo por el numero de datos
+
+mediana valor central de un conjunto de datos cuando estos estan ordenados de menor a mayor, separa en mitad los valores
+
+si tenemos una cantidad par de datos, la mediana es el promedio de los dos valores centrales
+
+la moda es el valor que tiene mayor frecuencia o que mas se repite de un conjunto de datos
+
+medidas de posicion de tendencia no central
+nos permite describri la posicion relativa o porcentual de un valor dentro de la variable dentro de un conjunto de datos
+cuartiles-- valores que dividen la muestra en 4 grupos donde cada uno abarca el 25% de la muestra
+percentiles-- valores que dividen la muestra en 100 grupos
+
+las medidas de dispersion sirven para determinar si los datos se encuentran cercanos o dispersos entre si, las medidas son las siguientes : 
+rango, varianza, desviacion estandar, coeficiente de variacion
+rango es la diferencia entre el mayor de los datos y el menor de los datos
+la varianza es una medida de cuan dispersos o separados estan los datos respecto a la media, lo malo que la varianza esta en unidades al cuadrado
+coeficiente de variacion, si queremos comparar dos distribuciones descartando el efecto del promedio podemos dividir la desviacion estanda rpor la media asi obtenemos el coeficiente de variacion
+cv = deviacion estandadar / promedio
+lambda funcion que se ocupa para crear funciones anonimas y pequenias, recordar
+--iGNORAR ESTO CHIKIS, mini repaso
+# --- IGNORE ---
+##IMPORTANTE LAS INTERPRETACIONES
+interpretaciones de la wa de tipo de insituciones y valor de la matricula
+#Tabla de frecuencias segun tipo de institucion
+f = numero de estudiantes matriculados en cada tipo de institucion
+h = suma acumulada de estudiantes matriculados en cada tipo de insitucion 
+F = procentaje de estudiantes matriculados en cada tipo de institucion respecto al total de matriculados
+H = Porcentaje acumulado de estudiantes hasta ese tipo de insitucion
+
+h1 = 14% de matriculas fueron hechas en centros de formacion tecnicas
+f2 = se matricularon 10387 estudiantes a institutos profesionales
+H3 = 75% de las matriculas fueron hechas en universidades y centros de formacion tecnica
+F4 = 34372 estudiantes se matricularon a instituciones 
+
+#Promedio de la matricula segun institucion
+#medio paja seguir, ahi sigo otro dia
+
