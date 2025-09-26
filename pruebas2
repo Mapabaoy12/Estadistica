@@ -1,0 +1,123 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+# Cargar datos desde un archivo Excel
+matriculas = pd.read_excel('14_MATRICULAS_ED_SUPERIOR_LOS_LAGOS_2021.xlsx')
+print(matriculas)
+
+
+#calcular año de ingreso menor
+año_ingreso_menor = matriculas['AÑO INGRESO'].min()
+print(f"El año de ingreso menor es: {año_ingreso_menor}")
+
+# Función para generar una tabla de frecuencias
+def tablin(variable):
+    #Frecuencia Absoluta
+    f = matriculas[variable].value_counts().sort_index()
+    #Frecuencia Absoluta Acumulada
+    F = f.cumsum()
+    #Frecuencia Relativa
+    h = (f/len(matriculas))*100
+    #Frecuencia Relativa Acumulada
+    H = (f.cumsum()/len(matriculas))*100
+    #Tabla de frecuencias con la variable definida en los parametros
+    tablaf = pd.DataFrame({
+    'Frec. Absoluta': f,
+    'Frec.relativa (%)': round(h),
+    'Frec. Abs. Acumulada': F,
+    'Frec. Rel. Acumulada':round(H)
+    })
+    return tablaf
+
+#Agrupacion por tipo de institucion
+print(matriculas.groupby('TIPO DE INSTITUCION'))
+#Tabla de frecuencias segun tipo de institucion
+print(f"Matriculas segun la variable tipo de institucion : \n{tablin('TIPO DE INSTITUCION')}")
+#Grafico de torta segun tipo de institucion
+matriculas['TIPO DE INSTITUCION'].value_counts().plot.pie(autopct='%1.1f%%', startangle=90, colors=['#F2AB6D', '#A3C4BC', '#66545E', "#C577D9"])
+plt.title('Distribución de matrículas por tipo de institución')
+plt.ylabel('')  # Eliminar la etiqueta del eje y
+plt.show()
+
+#valor Promedio de la matricula segun institucion
+promedios_tipo = matriculas.groupby('TIPO DE INSTITUCION')['VALOR MATRICULA (PESOS)'].mean()
+print("---")
+print(f"Promedio valor matricula segun tipo de institucion : \n{round(promedios_tipo)}")
+print("---\n")
+
+#moda
+moda = matriculas['TIPO DE INSTITUCION'].mode()
+print(f"La moda de la variable tipo de institucion es : \n{moda[0]}")
+print("---\n")
+
+#mediana
+mediana = matriculas['VALOR MATRICULA (PESOS)'].median()
+print(f"La mediana de la variable valor matricula es : \n{mediana}")
+print("---")
+
+
+#Percentil 50 de los tipos de institucion
+percentil_50 = matriculas.groupby('TIPO DE INSTITUCION')['VALOR MATRICULA (PESOS)'].quantile(0.5)
+print(f"El percentil 50 de la variable valor matricula (pesos) es : \n{percentil_50}")
+print("---\n")
+
+#Cuartil 1 de los tipos de institucion
+cuartil_1 = matriculas.groupby('TIPO DE INSTITUCION')['VALOR MATRICULA (PESOS)'].quantile(0.25)
+print(f"El cuartil 1 de la variable valor matricula (pesos) es : \n{cuartil_1}")
+print("---\n")
+
+#Rango de la variable valor matricula (pesos) segun tipo de institucion
+rango = matriculas.groupby('TIPO DE INSTITUCION')['VALOR MATRICULA (PESOS)'].agg(lambda x: x.max() - x.min())
+print(f"El rango de la variable valor matricula (pesos) es : \n{rango}")
+print("---\n")
+
+#Varianza de la variable valor matricula (pesos) segun tipo de institucion      
+varianza = matriculas.groupby('TIPO DE INSTITUCION')['VALOR MATRICULA (PESOS)'].var()
+print(f"La varianza de la variable valor matricula (pesos) es : \n{varianza}")
+print("---\n")
+
+#Desviacion Estandar de la variable valor matricula (pesos) segun tipo de institucion
+desviacion = matriculas.groupby('TIPO DE INSTITUCION')['VALOR MATRICULA (PESOS)'].std()
+print(f"La desviacion estandar de la variable valor matricula (pesos) es : \n{round(desviacion)}")
+print("---\n")
+
+coeficiente = (desviacion/promedios_tipo)*100   
+print(f"El coeficiente de variacion de la variable valor matricula (pesos) es : \n{round(coeficiente)}")
+# Gráfico para coeficiente de variación
+coeficiente.plot.bar(color='#66545E')
+plt.xlabel('Tipo de Institución')
+plt.ylabel('Coeficiente de Variación (%)')
+plt.title('Coeficiente de Variación del Valor de Matrícula')
+plt.tight_layout()
+plt.show()
+
+
+
+#preguntas items 2
+#1.¿Hay áreas del conocimiento donde las carreras sean más caras?
+promedios_area = matriculas.groupby('AREA CONOCIMIENTO')['VALOR MATRICULA (PESOS)'].mean()
+print(f"Promedio valor matricula segun area de conocimiento : \n{round(promedios_area)}")
+print("---\n")
+#GRAFICO DE BARRAS
+promedios_area.plot.bar(color='#F2AB6D')
+plt.xlabel('Área de Conocimiento')
+plt.ylabel('Promedio Valor Matrícula (Pesos)')
+plt.title('Promedio de Valor Matrícula por Área de Conocimiento')
+plt.show()
+
+#2.¿Qué influencia tiene la edad en el tipo de institución a la que ingresan los estudiantes?
+promedio_edad = matriculas.groupby('TIPO DE INSTITUCION')['EDAD'].mean()
+print("Promedio de edad por tipo de institución:\n", round(promedio_edad))
+print("---\n")
+##grafico de barras
+promedio_edad.plot.bar(color='#A3C4BC')
+plt.xlabel('Tipo de Institución')
+plt.ylabel('Promedio de Edad (años)')
+plt.title('Promedio de Edad por Tipo de Institución')
+plt.tight_layout()
+plt.show()
+
+
+#3.¿Hay carreras cuyo arancel sea sustantivamente más caro que la mayoría de los aranceles? ¿Qué explicación pueden encontrar? 
+#Consideren qué variables de la base de datos los puede ayudar y el contexto de la región que les tocó trabajar.
+carrera_mas_cara = matriculas.loc[matriculas['VALOR ARANCEL (PESOS)'].idxmax()]
+print(f"La carrera más cara es : \n{carrera_mas_cara[['NOMBRE CARRERA', 'VALOR ARANCEL (PESOS)', 'TIPO DE INSTITUCION', 'AREA CONOCIMIENTO']]}")
