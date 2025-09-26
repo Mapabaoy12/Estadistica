@@ -121,3 +121,31 @@ plt.show()
 #Consideren qué variables de la base de datos los puede ayudar y el contexto de la región que les tocó trabajar.
 carrera_mas_cara = matriculas.loc[matriculas['VALOR ARANCEL (PESOS)'].idxmax()]
 print(f"La carrera más cara es : \n{carrera_mas_cara[['NOMBRE CARRERA', 'VALOR ARANCEL (PESOS)', 'TIPO DE INSTITUCION', 'AREA CONOCIMIENTO']]}")
+
+#Gráfico rango de edades
+# Definir rangos de edad
+bins = [17, 20, 25, 30, 35, 40, 50, 60,70]  # ajusta según tus datos
+labels = ['17-19','20-24','25-29','30-34','35-39','40-49','50-59','60-70']
+
+matriculas['RANGO_EDAD'] = pd.cut(matriculas['EDAD'], bins=bins, labels=labels, right=False)
+conteo = matriculas['RANGO_EDAD'].value_counts().sort_index()
+plt.figure(figsize=(10,6))
+plt.bar(conteo.index, conteo.values, color='skyblue')
+plt.xlabel("Rango de edad")
+plt.ylabel("Cantidad de matriculados")
+plt.title("Cantidad de matriculados por rango de edad")
+plt.show()
+# Crear columna de rango de edad
+matriculas['RANGO_EDAD'] = pd.cut(matriculas['EDAD'], bins=bins, labels=labels, right=False)
+
+# Contar cantidad de matriculados por rango
+frecuencia = matriculas['RANGO_EDAD'].value_counts().sort_index()
+
+# Crear tabla de frecuencia
+tabla_frecuencia = pd.DataFrame({
+    'Rango de edad': frecuencia.index,
+    'Cantidad matriculados': frecuencia.values,
+    'Porcentaje (%)': (frecuencia.values / frecuencia.values.sum() * 100).round(2)
+})
+
+print(tabla_frecuencia)
